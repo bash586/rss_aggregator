@@ -21,3 +21,6 @@ export async function getFeeds() {
     return await db.select().from(feeds);
 }
 
+export async function resetFeeds() {
+    await db.delete(feeds);
+}

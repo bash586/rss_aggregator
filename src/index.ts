@@ -13,7 +13,6 @@ async function main() {
     registerCommand(registry, "users", handlerListUsers);
     registerCommand(registry, "agg", handlerPrintFeed);
     registerCommand(registry, "addfeed", handlerAddFeed);
-    // registerCommand(registry, "feeds", handlerListFeeds);
     registerCommand(registry, "follow", handlerAddFollow);
     registerCommand(registry, "following", handlerGetUserFollows);
     // register new commands here...
