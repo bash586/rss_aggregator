@@ -1,7 +1,8 @@
 import { setUser, readConfig } from "src/config";
 import { getUserByName, createUser, getUsers } from "../lib/db/queries/users";
+import { users } from "src/lib/db/schema";
 
-
+export type User = typeof users.$inferSelect;
 export async function handlerLogin(cmdName: string, ...args: string[]) {
     if (args.length === 0) {
         throw new Error("Invalid Usage: login <userName>");

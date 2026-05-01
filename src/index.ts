@@ -1,8 +1,9 @@
-import { handlerAddFeed, handlerAddFollow, handlerGetUserFollows, handlerPrintFeed } from "./commands/feeds";
+import { handlerAddFeed, handlerAddFollow, handlerGetUserFollows, handlerPrintFeed, handlerDeleteFollow } from "./commands/feeds";
 import { registerCommand, runCommand, type CommandsRegistry } from "./commands/commands";
 import { handlerReset } from "./commands/reset";
 import { handlerLogin, handlerRegister, handlerListUsers } from "./commands/users";
 import { exit } from "node:process";
+import { middlewareLoggedIn } from "./middleware";
 
 async function main() {
     const registry: CommandsRegistry = {};
@@ -12,9 +13,10 @@ async function main() {
     registerCommand(registry, "reset", handlerReset);
     registerCommand(registry, "users", handlerListUsers);
     registerCommand(registry, "agg", handlerPrintFeed);
-    registerCommand(registry, "addfeed", handlerAddFeed);
-    registerCommand(registry, "follow", handlerAddFollow);
-    registerCommand(registry, "following", handlerGetUserFollows);
+    registerCommand(registry, "addfeed", middlewareLoggedIn(handlerAddFeed));
+    registerCommand(registry, "follow", middlewareLoggedIn(handlerAddFollow));
+    registerCommand(registry, "unfollow", middlewareLoggedIn(handlerDeleteFollow));
+    registerCommand(registry, "following", middlewareLoggedIn(handlerGetUserFollows));
     // register new commands here...
     const inputParts = process.argv.slice(2);
     if (inputParts.length === 0 || !inputParts[0]) exit(1);
